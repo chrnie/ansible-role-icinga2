@@ -1,0 +1,5 @@
+---
+- debug:
+    msg: "System {{ inventory_hostname }} will be an icinga2 {{icinga2_role}}"
+
+ 

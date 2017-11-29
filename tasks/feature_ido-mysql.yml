@@ -1,0 +1,40 @@
+---
+
+- name: install the latest version of icinga2-ido-mysql
+  package:
+    name: icinga2-ido-mysql
+    state: present
+
+- name: manage database
+  include_role:
+    name: geerlingguy.mysql
+  vars:
+    mysql_databases:
+      - name: "{{icinga2_feature_ido_dbname}}"
+        collation: utf8_general_ci
+        encoding: utf8
+    mysql_users:
+      - name: "{{icinga2_feature_ido_user}}"
+        host: "%"
+        password: "{{icinga2_feature_ido_user}}"
+        priv: "{{icinga2_feature_ido_dbname}}.*:ALL"
+  when: icinga2_manage_mysql
+
+- name: Check Icinga 2 schema version
+  command: mysql -u "{{ icinga2_feature_ido_user }}" -p"{{ icinga2_feature_ido_password }}" "{{ icinga2_feature_ido_dbname }}" -Ns -e "select version from "{{ icinga2_feature_ido_dbname }}".icinga_dbversion;"
+  ignore_errors: yes
+  register: schema_result
+
+- name: Import icinga2 schema
+  mysql_db:
+    state: import
+    name: icinga
+    target: /usr/share/icinga2-ido-mysql/schema/mysql.sql
+  ignore_errors: yes
+  when: schema_result.stderr | match("ERROR.*Table 'icinga.icinga_dbversion'")
+
+- name: enable feature ido-mysql
+  template:
+    dest: "/etc/icinga2/features-available/ido-mysql.conf"
+    src: templates/ido-mysql.j2
+

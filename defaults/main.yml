@@ -1,3 +1,16 @@
 ---
 icinga2_manage_repo_icinga: true
 icinga2_manage_repo_epel: true
+icinga2_manage_mysql: true
+
+icinga2_features: [ "checker", "api", "notification", "mainlog" ]
+
+mysql_root_password: super-secure-password
+icinga2_feature_ido_dbname: icinga
+icinga2_feature_ido_user: icinga
+icinga2_feature_ido_password: icinga
+icinga2_feature_ido_host: "127.0.0.1"
+icinga2_feature_ido_port: 3306
+
+# role can be agent or master
+icinga2_role: "agent"

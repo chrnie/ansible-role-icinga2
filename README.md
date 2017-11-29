@@ -1,4 +1,4 @@
-# ansible-role-icinga2_install
+# ansible-role-icinga2
 install icinga2 on rhel or debian
 
 ## Role Variables
@@ -23,7 +23,7 @@ You can find an example playbook for testing purposes on https://github.com/chrn
 
     - hosts: all
       roles:
-        - chrnie.icinga2_install
+        - chrnie.icinga2
 
 
 ## License

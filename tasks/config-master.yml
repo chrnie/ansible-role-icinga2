@@ -1,0 +1,25 @@
+---
+
+- name: Stat CA cert
+  stat:
+    path: "/etc/icinga2/pki/ca.crt"
+  register: CAfile
+
+- name: Setup Icinga 2 master certificate authority
+  shell: "{{ icinga2_binary }} node setup --master --cn {{ icinga2_master_fqdn }}"
+  register: CAready
+  when: not CAfile.stat.exists
+
+- name: Test config before restart Icinga 2
+  shell: "{{ icinga2_binary }} daemon -C"
+  register: configTest
+  when: CAready is defined and CAready.changed
+
+- name: "add feature ido"
+  include_tasks: "feature_ido-mysql.yml"
+
+- name: Restart Icinga 2 after master setup
+  service:
+    name: icinga2
+    state: restarted
+  when: configTest.rc is defined and configTest.rc == 0
