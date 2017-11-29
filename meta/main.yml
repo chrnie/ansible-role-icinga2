@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Christoph Niemann
+  description: Install icinga2 on RHEL or Debian
+  license: Apache
+  min_ansible_version: 2.0
+  platforms:
+    - name: EL
+      versions:
+      - all
+    - name: Debian
+      versions:
+      - all
+  
+  galaxy_tags:
+    - monitoring
+
+dependencies: []

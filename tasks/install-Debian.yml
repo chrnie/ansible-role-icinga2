@@ -1,0 +1,25 @@
+---
+- name: Add icinga2 repo key
+  apt_key:
+    url: "{{ icinga2_apt_repo.key }}"
+    state: present
+  when: icinga2_apt_repo.key is defined
+        and icinga2_manage_repo_icinga
+
+- name: Add icinga2 repository
+  apt_repository:
+    repo: "{{ icinga2_apt_repo.repo }}"
+    state: present
+    update_cache: yes
+  when: icinga2_manage_repo_icinga
+
+- name: Install icinga2 basic packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - icinga2
+    - bash-completion
+    - vim-icinga2
+    - monitoring-plugins
+    - vim

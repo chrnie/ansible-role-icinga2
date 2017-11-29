@@ -1,0 +1,4 @@
+---
+
+- name: "Install icinga2 on {{ ansible_os_family }}"
+  include_tasks: "install-{{ ansible_os_family }}.yml"

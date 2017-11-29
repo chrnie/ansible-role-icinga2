@@ -1,0 +1,3 @@
+---
+icinga2_manage_repo_icinga: true
+icinga2_manage_repo_epel: true
