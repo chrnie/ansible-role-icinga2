@@ -2,7 +2,7 @@
 
 - name: Stat CA cert
   stat:
-    path: "/etc/icinga2/pki/ca.crt"
+    path: "/var/lib/icinga2/ca/ca.crt"
   register: CAfile
 
 - name: Setup Icinga 2 master certificate authority

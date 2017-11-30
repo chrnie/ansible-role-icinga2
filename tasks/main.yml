@@ -1,7 +1,7 @@
 ---
 
-#- name: "Install icinga2 on Linux"
-#  include_tasks: "install-{{ ansible_os_family }}.yml"
+- name: "Install icinga2 on Linux"
+  include_tasks: "install-{{ ansible_os_family }}.yml"
 
 - name: "Config Role"
   include_tasks: "config-{{icinga2_role}}.yml"
