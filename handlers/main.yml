@@ -1,0 +1,12 @@
+---
+
+- name: Test config before restart icinga 2
+  shell: "{{ icinga2_binary }} daemon -C"
+  register: configTest
+  changed_when: configTest.rc == 0
+  notify: Restart Icinga 2
+
+- name: Restart Icinga 2
+  service:
+    name: icinga2
+    state: restarted
