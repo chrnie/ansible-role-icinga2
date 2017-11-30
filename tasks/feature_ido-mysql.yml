@@ -33,7 +33,7 @@
   ignore_errors: yes
   when: schema_result.stderr | match("ERROR.*Table 'icinga.icinga_dbversion'")
 
-- name: enable feature ido-mysql
+- name: configure feature ido-mysql
   template:
     dest: "/etc/icinga2/features-available/ido-mysql.conf"
     src: templates/ido-mysql.j2

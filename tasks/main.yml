@@ -5,3 +5,22 @@
 
 - name: "Config Role"
   include_tasks: "config-{{icinga2_role}}.yml"
+
+- name: include feature tasks
+  include_tasks: "feature_{{ fItem.key }}.yml"
+  vars: 
+    icinga2_feature_name: "{{fItem.key}}"
+  with_dict: "{{ feature_has_handler }}"
+  loop_control:
+    loop_var: fItem
+  when: fItem.value and (fItem.key in icinga2_features)
+
+- name: "Enable icinga2 feature"
+  file:
+    src: "../features-available/{{item.key}}.conf"
+    dest: "/etc/icinga2/features-enabled/{{item.key}}.conf"
+    owner: root
+    group: root
+    state: "{{'link' if ( item.key in icinga2_features ) else 'absent' }}"
+  with_dict: "{{ feature_has_handler }}"
+  notify: Test config before restart icinga 2

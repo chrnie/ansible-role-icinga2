@@ -8,7 +8,11 @@ object IdoMysqlConnection "ido-mysql" {
 {% if icinga2_feature_idoMysql_options is defined %}
 {% for k, v in icinga2_feature_idoMysql_options.iteritems() %}
 {% if v is string %}  {{ v }} = {{ k }}
-{% elif v is mapping %}  {{ v }} = {{ '{' }}\n{% for j,l in v.iteritems() %}  {{ j }} = {{ l }}\n{% endfor %}{{ '  }' }}
+{% elif v is mapping %}
+  {{ k }} = {{ '{' }}
+{% for j,l in v.iteritems() %}
+    {{ j }} = {{ l }}
+{% endfor %}{{ '  }' }}
 {% elif v is sequence %}  {{ v }} = {{ '[ ' }}{% for n in v %}{{ n }}, {% endfor %}
 {% endif %}
 {% endfor %}
