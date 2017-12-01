@@ -1,4 +1,7 @@
 # ansible-role-icinga2
+
+[![Build Status](https://travis-ci.org/chrnie/ansible-role-icinga2.svg?branch=master)](https://travis-ci.org/chrnie/ansible-role-icinga2)
+
 install icinga2 on rhel or debian
 
 ## Role Variables
