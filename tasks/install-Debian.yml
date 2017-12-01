@@ -1,4 +1,9 @@
 ---
+- name: Install icinga2 basic packages
+  apt:
+    name: gnupg
+    state: present
+
 - name: Add icinga2 repo key
   apt_key:
     url: "{{ icinga2_apt_repo.gpgkey }}"
