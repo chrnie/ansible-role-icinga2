@@ -1,7 +1,7 @@
 ---
 - name: Add icinga2 repo key
   apt_key:
-    url: "{{ icinga2_apt_repo.key }}"
+    url: "{{ icinga2_apt_repo.gpgkey }}"
     state: present
   when: icinga2_apt_repo.key is defined
         and icinga2_manage_repo_icinga

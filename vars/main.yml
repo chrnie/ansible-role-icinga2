@@ -4,7 +4,7 @@ icinga2_yum_repo:
   gpgkey: http://packages.icinga.com/icinga.key
 icinga2_apt_repo:
   repo: "deb http://packages.icinga.com/debian icinga-{{ ansible_lsb.codename }} main"
-  key: https://packages.icinga.com/icinga.key
+  gpgkey: http://packages.icinga.com/icinga.key
 
 icinga2_binary: /usr/sbin/icinga2
 icinga2_api_port: 5665
