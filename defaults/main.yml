@@ -1,22 +1,22 @@
 ---
 
-icinga2_manage_repo_icinga: true
-icinga2_manage_repo_epel: true
-
-# includes geerlingguy.mysql
-icinga2_manage_mysql: false
-
-# fqdn of your icinga2 master
+# icinga2 settings
+# role can be agent or master
+icinga2_role: agent
 icinga2_master_fqdn: false
 icinga2_features: [ "checker", "api", "mainlog" ]
 
-# ido-mysql vars
+### Manage package repos
+icinga2_manage_repo_icinga: true
+icinga2_manage_repo_epel: true
+
+### includes geerlingguy.mysql
+icinga2_manage_mysql: false
+
+### ido-mysql vars
 mysql_root_password: super-secure-password
 icinga2_feature_ido_user: icinga
 icinga2_feature_ido_password: icinga
 icinga2_feature_ido_dbname: icinga
 icinga2_feature_ido_host: "127.0.0.1"
 icinga2_feature_ido_port: 3306
-
-# role can be agent or master
-icinga2_role: agent
