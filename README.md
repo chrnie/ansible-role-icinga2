@@ -21,16 +21,21 @@ Without a icinga2 server's fqdn this module will fail
     icinga2_features: [ "checker", "api", "mainlog" ]
 
 All features in this array will be enabled
+
+    icinga2_state: present
+
+Update or not? `icinga2_state` can be installed,latest,removed,absent,present,build-dep
+
 ### Manage package repos
 
     icinga2_manage_repo_icinga: true
 
 `True` for icinga2 community repos, `False` for distro packages
 
-
     icinga2_manage_repo_epel: true
 
 `True` to ensure epel-release rpm is installed.
+
 
 ### includes geerlingguy.mysql
 
@@ -54,12 +59,20 @@ IDO connection options
 
 
 ## Example Playbook
-You can find an example playbook for testing purposes on https://github.com/chrnie/icinga2-vagrant-ansible
+You can find an example playbook for testing purposes on https://github.com/chrnie/icinga2-vagrant-ansible.
 
     - hosts: all
       roles:
         - chrnie.icinga2
 
+Tags are supported:
+  - ansible-playbook --tags foo --skip-tags bar
+  - valid tags: config feature feature_switch install update
+  - caused by [ansible issue #32015](https://github.com/ansible/ansible/issues/32015) we have to use the untagged tag.
+    - if you only want to update icinga2 on icinga2_master
+      - `$ ansible-playbook -i hosts/testing 003_icinga2.yml --tags update,untagged --limit icinga2_master --extra-vars "icinga2_state=latest"`
+    - if you want to enable/disabled configured features on all nodes
+      - `$ ansible-playbook -i hosts/testing 003_icinga2.yml --tags feature_switch,untagged`
 
 ## License
 

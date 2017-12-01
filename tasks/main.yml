@@ -2,6 +2,14 @@
 
 - name: "Install icinga2 on Linux"
   include_tasks: "install-{{ ansible_os_family }}.yml"
+  tags:
+    - install
+    - update
+
+- name: "upgrade IDO schema"
+  include_tasks: "feature_ido-mysql_update.yml"
+  when: track_icinga2_install is defined
+        and track_icinga2_install.changed
 
 - name: "Config Role"
   include_tasks: "config-{{icinga2_role}}.yml"
@@ -14,6 +22,9 @@
   loop_control:
     loop_var: fItem
   when: fItem.value and (fItem.key in icinga2_features)
+  tags:
+    - config
+    - feature
 
 - name: "Enable icinga2 feature"
   file:
@@ -24,3 +35,7 @@
     state: "{{'link' if ( item.key in icinga2_features ) else 'absent' }}"
   with_dict: "{{ feature_has_handler }}"
   notify: Test config before restart icinga 2
+  tags:
+    - config
+    - feature
+    - feature_switch

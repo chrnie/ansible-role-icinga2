@@ -1,0 +1,69 @@
+---
+
+- name: fetch all icingaversions in upgrade path
+  shell: "ls /usr/share/icinga2-ido-mysql/schema/upgrade/ |sed 's/.sql//'|sort --version-sort"
+  register: icinga2_schema_upgrade_icingaversions
+  changed_when: False
+  when: ("ido-mysql" in icinga2_features)
+  tags: 
+    - update
+
+- name: fetch all ido dbversions in upgrade path
+  shell: grep -Po "^INSERT INTO icinga_dbversion.*idoutils.*NOW" /usr/share/icinga2-ido-mysql/schema/upgrade/* | sed "s/.*'idoutils',\s*'\(\S*\)',\s.*/\1/" | sort --version-sort
+  register: icinga2_schema_upgrade_dbversions
+  changed_when: False
+  when: ("ido-mysql" in icinga2_features)
+  tags: 
+    - update
+
+- name: Check Icinga 2 schema version
+  command: mysql -u "{{ icinga2_feature_ido_user }}" -p"{{ icinga2_feature_ido_password }}" "{{ icinga2_feature_ido_dbname }}" -Ns -e "select version from "{{ icinga2_feature_ido_dbname }}".icinga_dbversion;"
+  ignore_errors: yes
+  register: schema_result
+  changed_when: schema_result.rc == 0
+                and schema_result.stdout | version_compare((icinga2_schema_upgrade_dbversions.stdout_lines|last), operator='lt', strict=True)
+  tags: 
+    - update
+
+# Use to debug schema upgrade errors
+#- name: echo icingaversions in upgrade path
+#  debug:
+#    msg: "{{ icinga2_schema_upgrade_icingaversions }}"
+#  tags: 
+#    - debug
+#
+#- name: echo ido dbversions in upgrade path
+#  debug:
+#    msg: "{{ icinga2_schema_upgrade_dbversions }}"
+#  tags: 
+#    - debug
+#
+#- name: echo current db Verion
+#  debug:
+#    msg: "{{ schema_result }}"
+#  tags: 
+#    - debug
+#
+#- name: Debug upgrade execution
+#  debug:
+#    msg: "Upgrade schema from {{ schema_result.stdout }} to {{ item.0 }} using the file {{item.1}}.sql"
+#  with_together:
+#    - "{{ icinga2_schema_upgrade_dbversions.stdout_lines }}"
+#    - "{{ icinga2_schema_upgrade_icingaversions.stdout_lines }}"
+#  when: schema_result.changed
+#        and item.0 | version_compare(schema_result.stdout, operator='gt', strict=True)
+#  tags: 
+#    - update
+
+- name: Do the upgrade
+  mysql_db:
+    state: import
+    name: "{{icinga2_feature_ido_dbname}}"
+    target: "/usr/share/icinga2-ido-mysql/schema/upgrade/{{item.1}}.sql"
+  with_together:
+    - "{{ icinga2_schema_upgrade_dbversions.stdout_lines }}"
+    - "{{ icinga2_schema_upgrade_icingaversions.stdout_lines }}"
+  when: schema_result.changed
+        and item.0 | version_compare(schema_result.stdout, operator='gt', strict=True)
+  tags: 
+    - update

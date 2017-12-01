@@ -1,11 +1,15 @@
 ---
-
-- name: Setup Icinga 2 master certificate authority
+- name: Setup Icinga 2 master and create CA
   shell: "{{ icinga2_binary }} node setup --master --cn {{ icinga2_master_fqdn }}"
   args:
     creates: "/var/lib/icinga2/ca/ca.crt"
   notify: Test config before restart icinga 2
+  tags:
+    - install
+    - config
 
-- name: restart icinga if CA initiated
+- name: restart icinga after change
   meta: flush_handlers
-
+  tags:
+    - install
+    - config

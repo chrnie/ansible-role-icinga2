@@ -13,11 +13,11 @@
     state: present
   when: icinga2_manage_repo_epel
 
-
 - name: Install icinga2 basic packages
   yum:
     name: "{{ item }}"
-    state: present
+    state: "{{ icinga2_state }}"
+  register: track_icinga2_install
   with_items:
     - icinga2
     - bash-completion

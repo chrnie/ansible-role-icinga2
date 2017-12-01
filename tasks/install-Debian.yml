@@ -21,7 +21,8 @@
 - name: Install icinga2 basic packages
   apt:
     name: "{{ item }}"
-    state: present
+    state: "{{ icinga2_state }}"
+  register: track_icinga2_install
   with_items:
     - icinga2
     - bash-completion

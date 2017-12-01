@@ -10,6 +10,9 @@ icinga2_features: [ "checker", "api", "mainlog" ]
 icinga2_manage_repo_icinga: true
 icinga2_manage_repo_epel: true
 
+# Version can be installed,latest,removed,absent,present,build-dep
+icinga2_state: present
+
 ### includes geerlingguy.mysql
 icinga2_manage_mysql: false
 
