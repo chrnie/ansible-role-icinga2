@@ -3,7 +3,7 @@
   apt_key:
     url: "{{ icinga2_apt_repo.gpgkey }}"
     state: present
-  when: icinga2_apt_repo.key is defined
+  when: icinga2_apt_repo.gpgkey is defined
         and icinga2_manage_repo_icinga
 
 - name: Add icinga2 repository
