@@ -23,6 +23,7 @@
 - name: Check Icinga 2 schema version
   command: mysql -u "{{ icinga2_feature_ido_user }}" -p"{{ icinga2_feature_ido_password }}" "{{ icinga2_feature_ido_dbname }}" -Ns -e "select version from "{{ icinga2_feature_ido_dbname }}".icinga_dbversion;"
   ignore_errors: yes
+  changed_when: False
   register: schema_result
 
 - name: Import icinga2 schema

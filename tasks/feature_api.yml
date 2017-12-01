@@ -8,6 +8,7 @@
 - name: generate ticket on the icinga master and save it as a variable
   shell: "{{ icinga2_binary }} pki ticket --cn {{ inventory_hostname }}"
   register: icinga2_client_ticket
+  changed_when: False
   delegate_to: "{{icinga2_master_fqdn}}"
 
 - name: give ticket
