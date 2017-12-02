@@ -23,3 +23,54 @@ icinga2_feature_ido_password: icinga
 icinga2_feature_ido_dbname: icinga
 icinga2_feature_ido_host: "127.0.0.1"
 icinga2_feature_ido_port: 3306
+
+ic2_f_api_options: {}
+#  accept_config: "true"
+#  accept_commands: "true"
+#  ticket_salt: "TicketSalt"
+ic2_f_command_options: {}
+ic2_f_compatlog_options: {}
+ic2_f_debuglog_options: {}
+#  severity: "\"debug\""
+#  path: "LocalStateDir + \"/log/icinga2/debug.log\""
+ic2_f_elasticsearch_options: {}
+#  host: "\"127.0.0.1\""
+#  port: "9200"
+#  index: "\"icinga2\""
+#  enable_send_perfdata: "false"
+#  flush_threshold: "1024"
+#  flush_interval: "10s"
+ic2_f_gelf_options: {}
+#  host: "\"127.0.0.1\""
+#  port: "12201"
+ic2_f_graphite_options: {}
+#  host: "\"127.0.0.1\""
+#  port: "2003"
+ic2_f_livestatus_options: {}
+ic2_f_opentsdb_options: {}
+#  host: "\"127.0.0.1\""
+#  port: "4242"
+ic2_f_perfdata_options: {}
+ic2_f_statusdata_options: {}
+ic2_f_syslog_options: {}
+#  severity: "\"warning\""
+ic2_f_checker_options: {}
+ic2_f_mainlog_options: {}
+#  severity: "\"information\""
+#  path: "LocalStateDir + \"/log/icinga2/icinga2.log\""
+ic2_f_notification_options: {}
+ic2_f_influxdb_options: {}
+#  host: "\"127.0.0.1\""
+#  port: "8086"
+#  database: "\"icinga2\""
+#  flush_threshold: "1024"
+#  flush_interval: "10s"
+#  host_template:
+#    measurement: "\"$host.check_command$\""
+#    tags:
+#      hostname: "\"$host.name$\""
+#  service_template:
+#    measurement: "\"$service.check_command$\""
+#    tags:
+#      hostname: "\"$host.name$\""
+#      service: "\"$service.name$\""

@@ -16,6 +16,8 @@ icinga2_group:
   Debian: nagios
   RedHat: icinga
 
+# Feature variables
+
 feature_has_handler:
   api: True
   command: False
@@ -35,6 +37,25 @@ feature_has_handler:
   notification: False
   ido-mysql: True
 
+ic2_f_options:
+  api: "{{ ic2_f_api_options}}"
+  command: "{{ ic2_f_command_options}}"
+  compatlog: "{{ ic2_f_compatlog_options}}"
+  debuglog: "{{ ic2_f_debuglog_options}}"
+  elasticsearch: "{{ ic2_f_elasticsearch_options}}"
+  gelf: "{{ ic2_f_gelf_options}}"
+  graphite: "{{ ic2_f_graphite_options}}"
+  influxdb: "{{ ic2_f_influxdb_options}}"
+  livestatus: "{{ic2_f_livestatus_options}}"
+  opentsdb: "{{ ic2_f_opentsdb_options}}"
+  perfdata: "{{ ic2_f_perfdata_options}}"
+  statusdata: "{{ ic2_f_statusdata_options}}"
+  syslog: "{{ ic2_f_syslog_options}}"
+  checker: "{{ ic2_f_checker_options}}"
+  mainlog: "{{ ic2_f_mainlog_options}}"
+  notification: "{{ ic2_f_notification_options}}"
+  ido-mysql: {}
+
 icinga2_feature_idoMysql_connection:
   host: "{{icinga2_feature_ido_host}}"
   port: "{{icinga2_feature_ido_port}}"
@@ -47,4 +68,121 @@ icinga2_feature_idoMysql_options:
     contactnotifications_age: 31d
     eventhandlers_age: 7d
 
+ic2_f_object_name:
+  api: ApiListener
+  checker: CheckerComponent
+  command: ExternalCommandListener
+  compatlog: CompatLogger
+  debuglog: FileLogger
+  elasticsearch: ElasticsearchWriter
+  gelf: GelfWriter
+  graphite: GraphiteWriter
+  ido-mysql: IdoMysqlConnection
+  influxdb: InfluxdbWriter
+  livestatus: LivestatusListener
+  mainlog: FileLogger
+  notification: NotificationComponent
+  opentsdb: OpenTsdbWriter
+  perfdata: PerfdataWriter
+  statusdata: StatusDataWriter
+  syslog: SyslogLogger
 
+ic2_f_library:
+  checker: checker
+  command: compat
+  compatlog: compat
+  elasticsearch: perfdata
+  gelf: perfdata
+  graphite: perfdata
+  ido-mysql: db_ido_mysql
+  influxdb: perfdata
+  livestatus: livestatuslib
+  notification: notification
+  opentsdb: perfdata
+  perfdata: perfdata
+  statusdata: compat
+
+ic2_f_head:
+  api: |
+    /**
+     * The API listener is used for distributed monitoring setups.
+     */
+  checker: |
+    /**
+     * The checker component takes care of executing service checks.
+     */
+  command: |
+    /**
+     * The ExternalCommandListener implements support for the external
+     * commands pipe.
+     */
+  compatlog: |
+    /**
+     * The CompatLogger type is responsible for writing log files in a format
+     * that is compatible with Icinga 1.x.
+     */
+  debuglog: |
+    /**
+     * The FileLogger type writes log information to a log file.
+     * Unlike the mainlog feature this sets up a logger
+     * with severity "debug".
+     */
+  elasticsearch: |
+    /**
+     * This feature forwards check results, state changes and notification
+     * events to an Elasticsearch installation over its HTTP API. The check
+     * results include parsed performance data metrics if enabled.
+     */
+  gelf: |
+    /**
+     * The GelfWriter type writes event log entries
+     * to a GELF tcp socket provided by Graylog,
+     * Logstash or any other receiver.
+     */
+  graphite: |
+    /**
+     * The GraphiteWriter type writes check result metrics and
+     * performance data to a graphite tcp socket.
+     */
+  ido-mysql: |
+    /**
+     * The db_ido_mysql library implements IDO functionality
+     * for MySQL.
+     */
+  influxdb: |
+    /**
+     * The InfluxdbWriter type writes check result metrics and
+     * performance data to an InfluxDB HTTP API
+     */
+  livestatus: |
+    /**
+     *  The livestatus library implements the livestatus query protocol.
+     */
+  mainlog: |
+    /**
+     * The FileLogger type writes log information to a file.
+     */
+  notification: |
+    /**
+     * The notification component takes care of executing service checks.
+     */
+  opentsdb: |
+    /**
+     * The OpenTsdbWriter type writes check result metrics and
+     * performance data to a OpenTSDB tcp socket.
+     */
+  perfdata: |
+    /**
+     * The PerfdataWriter type writes performance data files and rotates
+     * them in a regular interval.
+     */
+  statusdata: |
+    /**
+     * The StatusDataWriter type periodically updates the status.dat and objects.cache
+     * files. These are used by the Icinga 1.x CGIs to display the state of
+     * hosts and services.
+     */
+  syslog: |
+    /**
+     * The SyslogLogger type writes log information to syslog.
+     */

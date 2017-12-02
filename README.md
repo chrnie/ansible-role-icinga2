@@ -54,6 +54,14 @@ If you choose `true` this module will install and configure mysql
 
 IDO connection options
 
+### All other features
+
+    ic2_f_debuglog_options:
+      severity: "\"debug\""
+      path: "LocalStateDir + \"/log/icinga2/debug.log\""
+
+There is a variable for each feature If you want to change a value, you have to configure all attributes of that feature. All other features work in a similar way.
+
 
 ## Dependencies
 
