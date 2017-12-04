@@ -18,11 +18,25 @@ icinga2_manage_mysql: false
 
 ### ido-mysql vars
 mysql_root_password: super-secure-password
-icinga2_feature_ido_user: icinga
-icinga2_feature_ido_password: icinga
-icinga2_feature_ido_dbname: icinga
-icinga2_feature_ido_host: "127.0.0.1"
-icinga2_feature_ido_port: 3306
+icinga2_feature_idoMysql_user: icinga
+icinga2_feature_idoMysql_password: icinga
+icinga2_feature_idoMysql_dbname: icinga
+icinga2_feature_idoMysql_host: "127.0.0.1"
+icinga2_feature_idoMysql_port: 3306
+icinga2_feature_idoMysql_options: 
+  cleanup:
+    downtimehistory_age: "0"
+    contactnotifications_age: "0"
+    eventhandlers_age: "0"
+
+### ido-pgsql vars
+icinga2_feature_idoPgsql_user: icinga
+icinga2_feature_idoPgsql_password: icinga
+icinga2_feature_idoPgsql_dbname: icinga
+icinga2_feature_idoPgsql_host: "127.0.0.1"
+icinga2_feature_idoPgsql_port: 3306
+
+# Feature Options
 
 ic2_f_api_options: {}
 #  accept_config: "true"

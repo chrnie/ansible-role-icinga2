@@ -17,7 +17,7 @@
     - update
 
 - name: Check Icinga 2 schema version
-  command: mysql -u "{{ icinga2_feature_ido_user }}" -p"{{ icinga2_feature_ido_password }}" "{{ icinga2_feature_ido_dbname }}" -Ns -e "select version from "{{ icinga2_feature_ido_dbname }}".icinga_dbversion;"
+  command: mysql -u "{{ icinga2_feature_idoMysql_user }}" -p"{{ icinga2_feature_idoMysql_password }}" "{{ icinga2_feature_idoMysql_dbname }}" -Ns -e "select version from "{{ icinga2_feature_idoMysql_dbname }}".icinga_dbversion;"
   ignore_errors: yes
   register: schema_result
   changed_when: schema_result.rc == 0
@@ -25,7 +25,7 @@
   tags: 
     - update
 
-# Use to debug schema upgrade errors
+# Used to debug schema upgrade errors
 #- name: echo icingaversions in upgrade path
 #  debug:
 #    msg: "{{ icinga2_schema_upgrade_icingaversions }}"
@@ -58,7 +58,7 @@
 - name: Do the upgrade
   mysql_db:
     state: import
-    name: "{{icinga2_feature_ido_dbname}}"
+    name: "{{icinga2_feature_idoMysql_dbname}}"
     target: "/usr/share/icinga2-ido-mysql/schema/upgrade/{{item.1}}.sql"
   with_together:
     - "{{ icinga2_schema_upgrade_dbversions.stdout_lines }}"

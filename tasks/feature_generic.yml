@@ -1,11 +1,4 @@
 ---
-- name: Include special feature tasks for {{ icinga2_feature_name }}
-  include_tasks: "feature_{{ icinga2_feature_name }}.yml"
-  when: fItem.value and (icinga2_feature_name in icinga2_features)
-  tags:
-    - config
-    - feature
-
 #- debug:
 #    msg: "Configure {{ icinga2_feature_name }} when {{ ic2_f_options[icinga2_feature_name] }} is defined"
 #  when: ic2_f_options[icinga2_feature_name]
@@ -14,7 +7,7 @@
 #    - feature
 #    - debug
 
-- name: configure features
+- name: "configure feature {{ icinga2_feature_name }}"
   template:
     dest: /etc/icinga2/features-available/{{ icinga2_feature_name }}.conf
     src: templates/generic_feature_template.j2

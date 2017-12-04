@@ -16,7 +16,27 @@ icinga2_group:
   Debian: nagios
   RedHat: icinga
 
+# ido feature overrides
+
+ic2_f_idoMysql_connection:
+  host: "{{icinga2_feature_idoMysql_host}}"
+  port: "{{icinga2_feature_idoMysql_port}}"
+  user: "{{icinga2_feature_idoMysql_user}}"
+  password: "{{icinga2_feature_idoMysql_password}}"
+  database: "{{icinga2_feature_idoMysql_dbname}}"
+ic2_f_idoMysql_options: "{{ icinga2_feature_idoMysql_options }}"
+
+icinga2_feature_idoPgsql_connection:
+  host: "{{icinga2_feature_idoPgsql_host}}"
+  port: "{{icinga2_feature_idoPgsql_port}}"
+  user: "{{icinga2_feature_idoPgsql_user}}"
+  password: "{{icinga2_feature_idoPgsql_password}}"
+  database: "{{icinga2_feature_idoPgsql_dbname}}"
+icinga2_feature_idoPgsql_options: {}
+
 # Feature variables
+
+# include special feature handler in main.yml
 
 feature_has_handler:
   api: True
@@ -36,37 +56,6 @@ feature_has_handler:
   mainlog: False
   notification: False
   ido-mysql: True
-
-ic2_f_options:
-  api: "{{ ic2_f_api_options}}"
-  command: "{{ ic2_f_command_options}}"
-  compatlog: "{{ ic2_f_compatlog_options}}"
-  debuglog: "{{ ic2_f_debuglog_options}}"
-  elasticsearch: "{{ ic2_f_elasticsearch_options}}"
-  gelf: "{{ ic2_f_gelf_options}}"
-  graphite: "{{ ic2_f_graphite_options}}"
-  influxdb: "{{ ic2_f_influxdb_options}}"
-  livestatus: "{{ic2_f_livestatus_options}}"
-  opentsdb: "{{ ic2_f_opentsdb_options}}"
-  perfdata: "{{ ic2_f_perfdata_options}}"
-  statusdata: "{{ ic2_f_statusdata_options}}"
-  syslog: "{{ ic2_f_syslog_options}}"
-  checker: "{{ ic2_f_checker_options}}"
-  mainlog: "{{ ic2_f_mainlog_options}}"
-  notification: "{{ ic2_f_notification_options}}"
-  ido-mysql: {}
-
-icinga2_feature_idoMysql_connection:
-  host: "{{icinga2_feature_ido_host}}"
-  port: "{{icinga2_feature_ido_port}}"
-  user: "{{icinga2_feature_ido_user}}"
-  password: "{{icinga2_feature_ido_password}}"
-  database: "{{icinga2_feature_ido_dbname}}"
-icinga2_feature_idoMysql_options:
-  cleanup:
-    downtimehistory_age: 48h
-    contactnotifications_age: 31d
-    eventhandlers_age: 7d
 
 ic2_f_object_name:
   api: ApiListener
@@ -101,6 +90,25 @@ ic2_f_library:
   opentsdb: perfdata
   perfdata: perfdata
   statusdata: compat
+
+ic2_f_options:
+  api: "{{ ic2_f_api_options}}"
+  command: "{{ ic2_f_command_options}}"
+  compatlog: "{{ ic2_f_compatlog_options}}"
+  debuglog: "{{ ic2_f_debuglog_options}}"
+  elasticsearch: "{{ ic2_f_elasticsearch_options}}"
+  gelf: "{{ ic2_f_gelf_options}}"
+  graphite: "{{ ic2_f_graphite_options}}"
+  influxdb: "{{ ic2_f_influxdb_options}}"
+  livestatus: "{{ic2_f_livestatus_options}}"
+  opentsdb: "{{ ic2_f_opentsdb_options}}"
+  perfdata: "{{ ic2_f_perfdata_options}}"
+  statusdata: "{{ ic2_f_statusdata_options}}"
+  syslog: "{{ ic2_f_syslog_options}}"
+  checker: "{{ ic2_f_checker_options}}"
+  mainlog: "{{ ic2_f_mainlog_options}}"
+  notification: "{{ ic2_f_notification_options}}"
+  ido-mysql: {}
 
 ic2_f_head:
   api: |

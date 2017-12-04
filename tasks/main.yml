@@ -14,9 +14,21 @@
 - name: "Config Role"
   include_tasks: "config-{{icinga2_role}}.yml"
 
+- name: Include special feature tasks for {{ icinga2_feature_name }}
+  include_tasks: "feature_{{ icinga2_feature_name }}.yml"
+  vars: 
+    icinga2_feature_name: "{{fItem.key}}"
+  with_dict: "{{ feature_has_handler }}"
+  loop_control:
+    loop_var: fItem
+  when: fItem.value and (icinga2_feature_name in icinga2_features)
+  tags:
+    - config
+    - feature
+
 - name: include feature tasks
   include_tasks: "feature_generic.yml"
-  vars: 
+  vars:
     icinga2_feature_name: "{{fItem.key}}"
   with_dict: "{{ feature_has_handler }}"
   loop_control:
