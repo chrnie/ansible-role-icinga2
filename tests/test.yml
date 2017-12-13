@@ -1,6 +1,6 @@
 ---
 - hosts: all
-
+  become: True
   vars:
     icinga2_master_fqdn: localhost
     mysql_root_password: super-secure-password
@@ -10,6 +10,5 @@
     icinga2_feature_ido_dbname: icinga
     icinga2_feature_ido_user: icinga
     icinga2_feature_ido_password: icinga
-
   roles:
     - role_under_test
