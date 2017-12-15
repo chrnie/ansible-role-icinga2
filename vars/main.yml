@@ -18,21 +18,13 @@ icinga2_group:
 
 # ido feature overrides
 
-ic2_f_idoMysql_connection:
-  host: "{{icinga2_feature_idoMysql_host}}"
-  port: "{{icinga2_feature_idoMysql_port}}"
-  user: "{{icinga2_feature_idoMysql_user}}"
-  password: "{{icinga2_feature_idoMysql_password}}"
-  database: "{{icinga2_feature_idoMysql_dbname}}"
-ic2_f_idoMysql_options: "{{ icinga2_feature_idoMysql_options }}"
-
-icinga2_feature_idoPgsql_connection:
-  host: "{{icinga2_feature_idoPgsql_host}}"
-  port: "{{icinga2_feature_idoPgsql_port}}"
-  user: "{{icinga2_feature_idoPgsql_user}}"
-  password: "{{icinga2_feature_idoPgsql_password}}"
-  database: "{{icinga2_feature_idoPgsql_dbname}}"
-icinga2_feature_idoPgsql_options: {}
+ic2_f_ido_connection:
+  host: "{{icinga2_ido_host}}"
+  port: "{{icinga2_ido_port}}"
+  user: "{{icinga2_ido_user}}"
+  password: "{{icinga2_ido_password}}"
+  database: "{{icinga2_ido_dbname}}"
+ic2_f_ido_options: "{{ icinga2_ido_options }}"
 
 # Feature variables
 
@@ -67,6 +59,7 @@ ic2_f_object_name:
   gelf: GelfWriter
   graphite: GraphiteWriter
   ido-mysql: IdoMysqlConnection
+  ido-pgsql: IdoPgsqlConnection
   influxdb: InfluxdbWriter
   livestatus: LivestatusListener
   mainlog: FileLogger
@@ -84,6 +77,7 @@ ic2_f_library:
   gelf: perfdata
   graphite: perfdata
   ido-mysql: db_ido_mysql
+  ido-pgsql: db_ido_pgsql
   influxdb: perfdata
   livestatus: livestatuslib
   notification: notification

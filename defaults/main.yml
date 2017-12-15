@@ -13,30 +13,24 @@ icinga2_manage_repo_epel: true
 # Version can be installed,latest,removed,absent,present,build-dep
 icinga2_state: present
 
-### includes geerlingguy.mysql
-icinga2_manage_mysql: false
-
-### ido-mysql vars
-mysql_root_password: super-secure-password
-icinga2_feature_idoMysql_user: icinga
-icinga2_feature_idoMysql_password: icinga
-icinga2_feature_idoMysql_dbname: icinga
-icinga2_feature_idoMysql_host: "127.0.0.1"
-icinga2_feature_idoMysql_port: 3306
-icinga2_feature_idoMysql_options: 
+### ido-mysql/pgsql vars
+# for pgsql choose type=pgsql and port=5432
+icinga2_ido_type: mysql
+icinga2_ido_user: icinga
+icinga2_ido_password: icinga
+icinga2_ido_dbname: icinga
+icinga2_ido_host: "127.0.0.1"
+icinga2_ido_port: 3306
+icinga2_ido_options: 
   cleanup:
     downtimehistory_age: "0"
     contactnotifications_age: "0"
     eventhandlers_age: "0"
 
-### ido-pgsql vars
-icinga2_feature_idoPgsql_user: icinga
-icinga2_feature_idoPgsql_password: icinga
-icinga2_feature_idoPgsql_dbname: icinga
-icinga2_feature_idoPgsql_host: "127.0.0.1"
-icinga2_feature_idoPgsql_port: 5432
-
 # Feature Options
+# leave empty to keep icinga2 shipped defaults
+# if you take controll about a config file you have to care about ALL options.
+# !!! Don't forget to remove the empty dict symbol {} !!!
 
 ic2_f_api_options: {}
 #  accept_config: "true"

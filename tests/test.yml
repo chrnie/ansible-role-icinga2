@@ -7,8 +7,8 @@
     icinga2_role: master
     icinga2_features: [ "ido-mysql", "checker", "api", "notification", "mainlog" ]
     icinga2_manage_mysql: true
-    icinga2_feature_ido_dbname: icinga
-    icinga2_feature_ido_user: icinga
-    icinga2_feature_ido_password: icinga
+    icinga2_ido_dbname: icinga
+    icinga2_ido_user: icinga
+    icinga2_ido_password: icinga
   roles:
     - role_under_test

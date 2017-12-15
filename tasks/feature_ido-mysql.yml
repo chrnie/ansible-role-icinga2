@@ -5,26 +5,8 @@
     name: icinga2-ido-mysql
     state: present
 
-# This block moved to 003a_mysql.yml in playbook. It remains only for documentation.
-# Refer to https://github.com/chrnie/icinga2-vagrant-ansible
-#
-#- name: manage database
-#  include_role:
-#    name: geerlingguy.mysql
-#  vars:
-#    mysql_databases:
-#      - name: "{{icinga2_feature_idoMysql_dbname}}"
-#        collation: utf8_general_ci
-#        encoding: utf8
-#    mysql_users:
-#      - name: "{{icinga2_feature_idoMysql_user}}"
-#        host: "%"
-#        password: "{{icinga2_feature_idoMysql_password}}"
-#        priv: "{{icinga2_feature_idoMysql_dbname}}.*:ALL"
-#  when: icinga2_manage_mysql
-
 - name: Check Icinga 2 schema version
-  command: mysql -u "{{ icinga2_feature_idoMysql_user }}" -p"{{ icinga2_feature_idoMysql_password }}" "{{ icinga2_feature_idoMysql_dbname }}" -Ns -e "select version from "{{ icinga2_feature_idoMysql_dbname }}".icinga_dbversion;"
+  command: mysql -u "{{ icinga2_ido_user }}" -p"{{ icinga2_ido_password }}" "{{ icinga2_ido_dbname }}" -Ns -e "select version from "{{ icinga2_ido_dbname }}".icinga_dbversion;"
   ignore_errors: yes
   changed_when: False
   register: schema_result

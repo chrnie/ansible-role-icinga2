@@ -14,6 +14,7 @@
 - name: give ticket
   debug:
     msg: "{{ icinga2_client_ticket['stdout'] }}"
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: ensure pki folder is created
   file:
@@ -32,6 +33,7 @@
   args:
     creates: "/etc/icinga2/pki/{{ inventory_hostname }}.crt"
   notify: Test config before restart icinga 2
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: save the masters cert as trustedcert
   shell: |
@@ -43,6 +45,7 @@
   args:
     creates: /etc/icinga2/pki/trusted-master.crt
   notify: Test config before restart icinga 2
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: request the certificate from the icinga server
   shell: |
@@ -56,6 +59,7 @@
   args:
     creates: /etc/icinga2/pki/ca.crt
   notify: Test config before restart icinga 2
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - name: node setup
   shell: |
@@ -72,4 +76,5 @@
     creates: /etc/icinga2/zones.conf.orig
   when: icinga2_role == "agent"
   notify: Test config before restart icinga 2
+  ignore_errors: '{{ ansible_check_mode }}'
   

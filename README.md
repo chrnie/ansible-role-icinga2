@@ -43,14 +43,13 @@ Update or not? `icinga2_state` can be installed,latest,removed,absent,present,bu
 
 If you choose `true` this module will install and configure mysql
 
-### ido-mysql vars
+### ido vars
 
-    mysql_root_password: super-secure-password
-    icinga2_feature_ido_user: icinga
-    icinga2_feature_ido_password: icinga
-    icinga2_feature_ido_dbname: icinga
-    icinga2_feature_ido_host: "127.0.0.1"
-    icinga2_feature_ido_port: 3306
+    icinga2_ido_user: icinga
+    icinga2_ido_password: icinga
+    icinga2_ido_dbname: icinga
+    icinga2_ido_host: "127.0.0.1"
+    icinga2_ido_port: 3306
 
 IDO connection options
 
