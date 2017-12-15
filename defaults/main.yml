@@ -34,7 +34,7 @@ icinga2_feature_idoPgsql_user: icinga
 icinga2_feature_idoPgsql_password: icinga
 icinga2_feature_idoPgsql_dbname: icinga
 icinga2_feature_idoPgsql_host: "127.0.0.1"
-icinga2_feature_idoPgsql_port: 3306
+icinga2_feature_idoPgsql_port: 5432
 
 # Feature Options
 
