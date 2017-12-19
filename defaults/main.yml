@@ -6,14 +6,15 @@ icinga2_role: agent
 icinga2_master_fqdn: false
 icinga2_features: [ "checker", "api", "mainlog" ]
 
-### Manage package repos
+# Manage package repos
 icinga2_manage_repo_icinga: true
 icinga2_manage_repo_epel: true
 
 # Version can be installed,latest,removed,absent,present,build-dep
 icinga2_state: present
 
-### ido-mysql/pgsql vars
+# ido-mysql/pgsql vars
+# icinga2 ido connection (same as in chrnie.icinga2)
 # for pgsql choose type=pgsql and port=5432
 icinga2_ido_type: mysql
 icinga2_ido_user: icinga
