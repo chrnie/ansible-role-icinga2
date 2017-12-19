@@ -1,9 +1,33 @@
 ---
 - hosts: all
   become: True
+  roles:
+    name: 
   vars:
-    icinga2_master_fqdn: localhost
+    mysql_databases:
+      - name: icinga
+        collation: utf8_general_ci
+        encoding: utf8
+    mysql_users:
+      - name: icinga
+        host: "%"
+        password: icinga
+        priv: 'icinga'.*:ALL"
+
+- hosts: all
+  become: True
+  vars:
+    mysql_databases:
+      - name: icinga
+        collation: utf8_general_ci
+        encoding: utf8
+    mysql_users:
+      - name: icinga
+        host: "%"
+        password: icinga
+        priv: 'icinga'.*:ALL"
     mysql_root_password: super-secure-password
+    icinga2_master_fqdn: localhost
     icinga2_role: master
     icinga2_features: [ "ido-mysql", "checker", "api", "notification", "mainlog" ]
     icinga2_manage_mysql: true
@@ -11,4 +35,5 @@
     icinga2_ido_user: icinga
     icinga2_ido_password: icinga
   roles:
+    - geerlingguy.mysql
     - role_under_test
