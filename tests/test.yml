@@ -1,18 +1,4 @@
 ---
-- hosts: all
-  become: True
-  roles:
-    name: 
-  vars:
-    mysql_databases:
-      - name: icinga
-        collation: utf8_general_ci
-        encoding: utf8
-    mysql_users:
-      - name: icinga
-        host: "%"
-        password: icinga
-        priv: 'icinga'.*:ALL"
 
 - hosts: all
   become: True
