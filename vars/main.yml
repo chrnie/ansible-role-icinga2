@@ -24,7 +24,9 @@ ic2_f_ido_connection:
   user: "{{icinga2_ido_user}}"
   password: "{{icinga2_ido_password}}"
   database: "{{icinga2_ido_dbname}}"
-ic2_f_ido_options: "{{ icinga2_ido_options }}"
+ic2_f_ido_options: {}
+
+#ic2_f_ido_options: "{{ icinga2_ido_options }}"
 
 # Feature variables
 
@@ -152,6 +154,11 @@ ic2_f_head:
     /**
      * The db_ido_mysql library implements IDO functionality
      * for MySQL.
+     */
+  ido-pgsql: |
+    /**
+     * The db_ido_mysql library implements IDO functionality
+     * for postgres sql.
      */
   influxdb: |
     /**

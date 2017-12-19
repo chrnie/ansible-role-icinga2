@@ -1,0 +1,6 @@
+---
+
+- name: configure feature ido-pgsql
+  template:
+    dest: "/etc/icinga2/features-available/ido-pgsql.conf"
+    src: templates/ido-pgsql.j2

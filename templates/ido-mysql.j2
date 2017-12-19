@@ -1,14 +1,15 @@
 // {{ ansible_managed }}
 {{ ic2_f_head[icinga2_feature_name] }}
 
-library "db_ido_{{icinga2_ido_type}}"
+library "db_ido_mysql"
 
 object {{ ic2_f_object_name[icinga2_feature_name] }} "{{ icinga2_feature_name }}" {
 {% for k, v in ic2_f_ido_connection.iteritems() %}
   {{ k }} = "{{ v }}"
 {% endfor %}
 
-{% for k, v in ic2_f_ido_options.iteritems() %}
+{% if icinga2_ido_options is mapping %}
+{% for k, v in icinga2_ido_options.iteritems() %}
 {% if v is string %}  {{ k }} = {{ v }}
 {# ITERATE OVER SECOND LEVEL DICT #}
 {% elif v is mapping %}
@@ -27,4 +28,5 @@ object {{ ic2_f_object_name[icinga2_feature_name] }} "{{ icinga2_feature_name }}
 {% elif v is sequence %}  {{ k }} = {{ '[ ' }}{% for n in v %}{{ n }}{{ ',' if not loop.last else '' }} {% endfor %} {{ '] ' }}
 {% endif %}
 {% endfor %}
+{% endif %}
 }
