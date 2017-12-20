@@ -14,7 +14,7 @@
 - name: Import icinga2 schema
   mysql_db:
     state: import
-    name: icinga
+    name: "{{ icinga2_ido_dbname }}"
     target: /usr/share/icinga2-ido-mysql/schema/mysql.sql
   ignore_errors: yes
   when: schema_result.stderr | match("ERROR.*Table 'icinga.icinga_dbversion'")
