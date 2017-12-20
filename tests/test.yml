@@ -11,7 +11,7 @@
       - name: icinga
         host: "%"
         password: icinga
-        priv: 'icinga'.*:ALL"
+        priv: "'icinga'.*:ALL"
     mysql_root_password: super-secure-password
     icinga2_master_fqdn: localhost
     icinga2_role: master
