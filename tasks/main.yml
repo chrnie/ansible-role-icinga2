@@ -6,6 +6,20 @@
     - install
     - update
 
+- name: create directory /etc/icinga2/custom_conf.d
+  file:
+    dest: /etc/icinga2/custom_conf.d
+    state: directory
+    mode: 0700
+    owner: "{{icinga2_user[ansible_os_family]}}"
+    group: "{{icinga2_group[ansible_os_family]}}"
+
+- name: exclude conf.d, include custom_conf.d
+  lineinfile:
+    path: /etc/icinga2/icinga2.conf
+    regexp: '^include_recursive'
+    line: 'include_recursive "custom_conf.d"'
+
 - name: "upgrade IDO schema"
   include_tasks: "feature_ido-mysql_update.yml"
   when: track_icinga2_install is defined
