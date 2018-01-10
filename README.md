@@ -89,4 +89,5 @@ Apache License 2.0
 
 Created in 2017 by Christoph Niemann, https://github.com/chrnie
 
-Forked from https://github.com/mkayontour/icinga2-ansible
+Forked from https://github.com/mkayontour/icinga2-ansible+
+
