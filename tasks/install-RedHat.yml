@@ -24,3 +24,4 @@
     - vim-icinga2
     - nagios-plugins-all
     - vim
+    - mysql
