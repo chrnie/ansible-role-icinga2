@@ -1,0 +1,91 @@
+---
+- debug:
+    msg: "System {{ inventory_hostname }} will be an icinga2 {{icinga2_role}}"
+  tags:
+    - install
+    - config
+
+- name: Disable conf.d on Client
+  replace:
+    destfile: /etc/icinga2/icinga2.conf
+    regexp: '^include_recursive "conf.d"$'
+    replace: '//include_recursive "conf.d"'
+  notify: Test config before restart icinga 2
+  tags:
+    - install
+    - config
+ 
+- name: ensure pki folder is created
+  file:
+    dest: /etc/icinga2/pki
+    state: directory
+    mode: 0700
+    owner: "{{icinga2_user[ansible_os_family]}}"
+    group: "{{icinga2_group[ansible_os_family]}}"
+
+- name: create cert
+  shell: |
+    {{ icinga2_binary }} pki new-cert \
+    --cn {{ icinga2_nodename }} \
+    --key '/var/lib/icinga2/certs/{{ icinga2_nodename }}.key' \
+    --cert '/var/lib/icinga2/certs/{{ icinga2_nodename }}.crt' \
+  args:
+    creates: "/var/lib/icinga2/certs/{{ icinga2_nodename }}.crt"
+  notify: Test config before restart icinga 2
+  ignore_errors: '{{ ansible_check_mode }}'
+
+- name: generate ticket on the icinga master and save it as a variable
+  shell: "{{ icinga2_binary }} pki ticket --cn {{ icinga2_nodename }}"
+  register: icinga2_client_ticket
+  changed_when: False
+  delegate_to: "{{icinga2_ca_host}}"
+
+- name: save the masters cert as trustedcert
+  shell: |
+    {{ icinga2_binary }} pki save-cert \
+    --key '/var/lib/icinga2/certs/{{ icinga2_nodename }}.key' \
+    --cert '/var/lib/icinga2/certs/{{ icinga2_nodename }}.crt' \
+    --trustedcert /var/lib/icinga2/certs/trustedcert.crt \
+    --host {{ icinga2_cert_request_host }}
+  args:
+    creates: /var/lib/icinga2/certs/trustedcert.crt
+  notify: Test config before restart icinga 2
+  ignore_errors: '{{ ansible_check_mode }}'
+
+- name: request the certificate from the icinga server
+  shell: |
+    {{ icinga2_binary }} pki request \
+    --host {{ icinga2_cert_request_host }} \
+    --port {{ icinga2_api_port }} \
+    --ticket {{ icinga2_client_ticket['stdout'] }} \
+    --key '/var/lib/icinga2/certs/{{ icinga2_nodename }}.key' \
+    --cert '/var/lib/icinga2/certs/{{ icinga2_nodename }}.crt' \
+    --trustedcert /var/lib/icinga2/certs/trustedcert.crt \
+    --ca /var/lib/icinga2/certs/ca.crt
+  args:
+    creates: '/var/lib/icinga2/certs/ca.crt'
+  notify: Test config before restart icinga 2
+  ignore_errors: '{{ ansible_check_mode }}'
+
+- name: node setup
+  shell: |
+    {{ icinga2_binary }} node setup \
+    --ticket {{ icinga2_client_ticket['stdout'] }} \
+    --zone {{ inventory_hostname }} \
+    --parent_host {{ icinga2_cert_request_host }} \
+    --parent_zone {{ icinga2_ZoneName }} \
+    --trustedcert /var/lib/icinga2/certs/trustedcert.crt \
+    --cn {{ icinga2_nodename }} \
+    --accept-commands \
+    --accept-config
+  args:
+    creates: /etc/icinga2/zones.conf.orig
+  notify: Test config before restart icinga 2
+  when: icinga2_role == "agent"
+  ignore_errors: '{{ ansible_check_mode }}'
+
+- name: restart icinga after change
+  meta: flush_handlers
+  tags:
+    - install
+    - config

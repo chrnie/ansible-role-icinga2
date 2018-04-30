@@ -1,0 +1,27 @@
+{#
+{% set i2o_kind = "object" %}
+{% set i2o_type = "Endpoint" %}
+{% set i2o_name = "localhost" %}
+{% set i2o_attr = { ... } %}
+#}
+{% if i2o_kind is not defined %}{% set i2o_kind = "object" %}{% endif %}
+{{ i2o_kind }} {{ i2o_type }} "{{ i2o_name }}" {
+{% for key, value in i2o_attr.iteritems() %}
+{% if value is string %}
+  {{ key }} = "{{ value }}"
+{% elif value is mapping %}
+  {{ key }} = {
+    // TODO
+  }
+{% elif value is iterable %}
+  {{ key }} = [
+    "{{ value | join('", "') }}"
+  ]
+{% elif value == True or value == False %}
+  {{ key }} = {{ value | bool | lower }}
+{% else %}
+  {{ key }} = {{ value }}
+{% endif %}
+{% endfor %}
+}
+
