@@ -9,7 +9,7 @@
         encoding: utf8
     mysql_users:
       - name: icinga
-        host: "127.0.0.1"
+        host: localhost
         password: icinga
         priv: "'icinga'.*:ALL"
     mysql_root_password: super-secure-password
