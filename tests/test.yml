@@ -20,8 +20,7 @@
     icinga2_ido_dbname: icinga
     icinga2_ido_user: icinga
     icinga2_ido_password: icinga
-    icinga2_endpoints:
-      "{{hostvars[inventory_hostname]['ansible_fqdn']}}":
+    icinga2_endpoints[hostvars[inventory_hostname]['ansible_fqdn']]:
         host: "{{hostvars[inventory_hostname]['ansible_fqdn']}}"
     icinga2_zones:
       master:
