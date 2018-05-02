@@ -5,8 +5,13 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - MySQL-python
     - icinga2-ido-mysql
+
+- name: Install MySQL-python on RedHat
+  yum:
+    name: MySQL-python
+    state: present
+  when: ansible_os_family == 'RedHat'
 
 - name: Check IDO schema version in MySQL
   command:
