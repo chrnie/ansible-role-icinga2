@@ -5,7 +5,7 @@
 icinga2_role: agent
 icinga2_ca_host: false
 icinga2_cert_request_host: "{{icinga2_ca_host}}"
-icinga2_nodename: "{{ hostvars[ansible_nodename]['ansible_fqdn'] }}"
+icinga2_nodename: "{{ hostvars[inventory_hostname]['ansible_fqdn'] }}"
 icinga2_ZoneName: master
 icinga2_features: [ "checker", "api", "mainlog" ]
 

@@ -4,7 +4,7 @@
   args:
     creates: "/var/lib/icinga2/ca/ca.crt"
   notify: Test config before restart icinga 2
-  when: ansible_nodename == icinga2_ca_host
+  when: inventory_hostname == icinga2_ca_host
   tags:
     - install
     - config
@@ -36,7 +36,7 @@
 - name: Manage Certificates
   include_tasks: "pki.yml"
   creates: "/var/lib/icinga2/certs/{{ icinga2_nodename }}.crt"
-  when: ansible_nodename != icinga2_ca_host
+  when: inventory_hostname != icinga2_ca_host
   tags:
     - install
     - update
