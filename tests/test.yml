@@ -7,7 +7,6 @@
     icinga2_nodename: localhost
     icinga2_role: master
     icinga2_features: [ "ido-mysql", "checker", "api", "notification", "mainlog" ]
-    icinga2_ido_host: 127.0.0.1
     icinga2_ido_dbname: icinga
     icinga2_ido_user: icinga
     icinga2_ido_password: icinga
@@ -24,8 +23,6 @@
         global: true
     mysql_databases:
       - name: icinga
-        collation: utf8_general_ci
-        encoding: utf8
     mysql_users:
       - name: icinga
         host: "%"
