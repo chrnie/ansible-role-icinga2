@@ -31,6 +31,6 @@
         global: true
       global-templates:
         global: true
-      roles:
-        - geerlingguy.mysql
-        - role_under_test
+  roles:
+    - geerlingguy.mysql
+    - role_under_test
