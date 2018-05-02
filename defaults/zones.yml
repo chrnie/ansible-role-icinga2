@@ -1,0 +1,15 @@
+---
+icinga2_endpoints:
+  "{{hostvars[inventory_hostname]['ansible_fqdn']}}":
+    host: "{{hostvars[inventory_hostname]['ansible_fqdn']}}"
+
+icinga2_zones:
+  master:
+    endpoints:
+      - "{{hostvars[inventory_hostname]['ansible_fqdn']}}"
+
+  director-global:
+    global: true
+
+  global-templates:
+    global: true
