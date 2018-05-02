@@ -13,7 +13,8 @@
         password: icinga
         priv: "'icinga'.*:ALL"
     mysql_root_password: super-secure-password
-    icinga2_master_fqdn: localhost
+    icinga2_ca_host: localhost
+    icinga2_nodename: localhost
     icinga2_role: master
     icinga2_features: [ "ido-mysql", "checker", "api", "notification", "mainlog" ]
     icinga2_manage_mysql: true
@@ -21,16 +22,16 @@
     icinga2_ido_user: icinga
     icinga2_ido_password: icinga
     icinga2_endpoints:
-      "{{hostvars[inventory_hostname]['ansible_fqdn']}}":
-        host: "{{hostvars[inventory_hostname]['ansible_fqdn']}}"
+      localhost:
+        host: localhost
     icinga2_zones:
       master:
         endpoints:
-          - "{{hostvars[inventory_hostname]['ansible_fqdn']}}"
+          - localhost
       director-global:
         global: true
       global-templates:
         global: true
-      roles:
-        - geerlingguy.mysql
-        - role_under_test
+  roles:
+    - geerlingguy.mysql
+    - role_under_test

@@ -1,6 +1,6 @@
 ---
 - name: Setup Icinga 2 master and create CA
-  shell: "{{ icinga2_binary }} node setup --master --cn {{ hostvars[icinga2_ca_host]['ansible_fqdn'] }}"
+  shell: "{{ icinga2_binary }} node setup --master --cn {{ icinga2_nodename }}"
   args:
     creates: "/var/lib/icinga2/ca/ca.crt"
   notify: Test config before restart icinga 2

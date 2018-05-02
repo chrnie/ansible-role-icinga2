@@ -14,7 +14,7 @@ Available variables are listed below, along with default values (see `defaults/m
 
 Choose a role for icinga2. `agent` or `master` is possible.
 
-    icinga2_master_fqdn: false
+    icinga2_ca_host: false
 
 Without a icinga2 server's fqdn this module will fail
 

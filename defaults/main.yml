@@ -32,6 +32,10 @@ icinga2_ido_options:
     contactnotifications_age: "0"
     eventhandlers_age: "0"
 
+# Configure zones.conf
+icinga2_endpoints: {}
+icinga2_zones: {}
+
 # Feature Options
 # leave empty to keep icinga2 shipped defaults
 # if you take controll about a config file you have to care about ALL options.
