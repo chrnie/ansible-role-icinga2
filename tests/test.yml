@@ -20,6 +20,17 @@
     icinga2_ido_dbname: icinga
     icinga2_ido_user: icinga
     icinga2_ido_password: icinga
-  roles:
-    - geerlingguy.mysql
-    - role_under_test
+    icinga2_endpoints:
+      "{{hostvars[inventory_hostname]['ansible_fqdn']}}":
+        host: "{{hostvars[inventory_hostname]['ansible_fqdn']}}"
+    icinga2_zones:
+      master:
+        endpoints:
+          - "{{hostvars[inventory_hostname]['ansible_fqdn']}}"
+      director-global:
+        global: true
+      global-templates:
+        global: true
+      roles:
+        - geerlingguy.mysql
+        - role_under_test
