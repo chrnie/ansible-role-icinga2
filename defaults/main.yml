@@ -8,6 +8,7 @@ icinga2_cert_request_host: "{{icinga2_ca_host}}"
 icinga2_nodename: "{{ hostvars[inventory_hostname]['ansible_fqdn'] }}"
 icinga2_ZoneName: master
 icinga2_features: [ "checker", "api", "mainlog" ]
+icinga2_ticketsalt: "fiem2ai0pies5limiu3EeSh8ooFoyai4"
 
 # Manage package repos
 icinga2_manage_repo_icinga: true
