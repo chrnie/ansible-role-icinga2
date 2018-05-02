@@ -29,4 +29,4 @@
     - vim-icinga2
     - monitoring-plugins
     - vim
-    - mysql
+    - mysql-client
