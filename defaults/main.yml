@@ -33,6 +33,7 @@ icinga2_ido_options:
     eventhandlers_age: "0"
 
 # Configure zones.conf
+icinga2_apiusers: {}
 icinga2_endpoints: {}
 icinga2_zones: {}
 
