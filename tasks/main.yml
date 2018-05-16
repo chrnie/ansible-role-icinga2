@@ -47,3 +47,9 @@
   with_dict: "{{ feature_has_handler }}"
   loop_control:
     loop_var: fItem
+
+- name: Enable and start service icinga2
+  service:
+    name: icinga2
+    state: started
+    enabled: yes

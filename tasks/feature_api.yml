@@ -3,8 +3,8 @@
 - name: Manage icinga2 apiusers.conf
   template:
     src: apiusers.conf.j2
-    dest: /etc/icinga2/objects/apiusers.conf
-    owner: "{{ icinga2_user }}"
-    group: "{{ icinga2_group }}"
+    dest: /etc/icinga2/custom_conf.d/apiusers.conf
+    owner: "{{icinga2_user[ansible_os_family]}}"
+    group: "{{icinga2_group[ansible_os_family]}}"
     mode: 0640
   notify: Test config before restart icinga 2
