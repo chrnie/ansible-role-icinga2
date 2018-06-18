@@ -6,6 +6,7 @@
     state: present
   with_items:
     - icinga2-ido-mysql
+  notify: Test config before restart icinga 2
 
 - name: Install MySQL-python on RedHat
   yum:
@@ -13,31 +14,89 @@
     state: present
   when: ansible_os_family == 'RedHat'
 
+- name: Ensure icinga2 user has access to ssl_cert
+  user:
+    name: "{{icinga2_user[ansible_os_family]}}"
+    append: yes
+    groups: "{{ icinga2_mysql_ssl_cert_groupname }}"
+  when: icinga2_add_user_to_ssl_group
+
+# due to a bug in mysql_db we need a .my.cnf file to enable client ssl
+# https://github.com/ansible/ansible/issues/30500
+- name: "set [client] in {{ icinga2_ansible_user_dir }}/.my.cnf"
+  lineinfile:
+    path: "{{ icinga2_ansible_user_dir }}/.my.cnf"
+    state: present
+    line: '[client]'
+    create: yes
+
+- name: "set ssl=1 in {{ icinga2_ansible_user_dir }}/.my.cnf"
+  lineinfile:
+    path: "{{ icinga2_ansible_user_dir }}/.my.cnf"
+    state: present
+    line: 'ssl=1'
+    insertafter: '^[client]'
+
 - name: Check IDO schema version in MySQL
   command:
     mysql
     -h {{ icinga2_ido_host|quote }}
     -u {{ icinga2_ido_user|quote }}
     -p{{ icinga2_ido_password|quote }}
+    {{ "--ssl" if icinga2_mysql_ssl }}
+    {{ "--ssl-verify-server-cert" if ( icinga2_mysql_ssl_verify_server_cert ) else '' }}
+    {{ ( '--ssl-ca' + ' ' + icinga2_mysql_ssl_certs_ca_path ) | quote if ( icinga2_mysql_ssl_verify_server_cert or icinga2_mysql_ssl_X509 ) else '' }}
+    {{ ( '--ssl-cert' + ' ' + icinga2_mysql_ssl_certs_cert_path ) | quote if icinga2_mysql_ssl_X509 else '' }}
+    {{ ( '--ssl-key' + ' ' + icinga2_mysql_ssl_certs_privkey_path ) | quote if icinga2_mysql_ssl_X509 else '' }}
     {{ icinga2_ido_dbname|quote }}
     -Ns -e "SHOW TABLES LIKE 'icinga_dbversion'"
   changed_when: False
   register: table_exists
+  tags:
+    - mysqlConnect
 
-- name: Import icinga2 schema
+# I must run this task twice as I really don't know how to pass None, Null, empty or something to ssl_key. It must be undefined, NOT '' string.
+- name: Import icinga2 schema without REQUIRE X509
   mysql_db:
-    state: import
-    name: "{{ icinga2_ido_dbname }}"
     login_host: "{{ icinga2_ido_host }}"
+    login_port: "{{ icinga2_ido_port }}"
     login_user: "{{ icinga2_ido_user }}"
     login_password: "{{ icinga2_ido_password }}"
+    config_file: "{{ icinga2_ansible_user_dir }}/.my.cnf"
+    name: "{{ icinga2_ido_dbname }}"
+    ssl_ca: "{{ icinga2_mysql_ssl_certs_ca_path|quote if ( icinga2_mysql_ssl_verify_server_cert or icinga2_mysql_ssl_X509 or icinga2_mysql_ssl ) else NONE }}"
     target: /usr/share/icinga2-ido-mysql/schema/mysql.sql
+    state: import
   ignore_errors: yes
-  when: table_exists.stdout == ""
+  run_once: true
+  when: ( ( table_exists.stdout == "" ) and not icinga2_mysql_ssl_X509 )
+  tags:
+    - mysqlConnect
+
+- name: Import icinga2 schema with REQUIRE X509
+  mysql_db:
+    login_host: "{{ icinga2_ido_host }}"
+    login_port: "{{ icinga2_ido_port }}"
+    login_user: "{{ icinga2_ido_user }}"
+    login_password: "{{ icinga2_ido_password }}"
+    config_file: "{{ icinga2_ansible_user_dir }}/.my.cnf"
+    name: "{{ icinga2_ido_dbname }}"
+    ssl_ca: "{{ icinga2_mysql_ssl_certs_ca_path|quote if ( icinga2_mysql_ssl_verify_server_cert or icinga2_mysql_ssl_X509 or icinga2_mysql_ssl ) else NONE }}"
+    ssl_cert: "{{ icinga2_mysql_ssl_certs_cert_path|quote if ( icinga2_mysql_ssl_X509 ) else 'None' }}"
+    ssl_key: "{{ icinga2_mysql_ssl_certs_privkey_path|quote if ( icinga2_mysql_ssl_X509 ) else 'None' }}"
+    target: /usr/share/icinga2-ido-mysql/schema/mysql.sql
+    state: import
+  ignore_errors: yes
+  run_once: true
+  when: ( ( table_exists.stdout == "" ) and icinga2_mysql_ssl_X509 )
+  tags:
+    - mysqlConnect
+
 
 - name: configure feature ido-mysql
   template:
     dest: "/etc/icinga2/features-available/ido-mysql.conf"
     src: templates/ido-mysql.j2
     mode: 0640
+  notify: Test config before restart icinga 2
 

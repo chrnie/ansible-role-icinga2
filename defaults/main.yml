@@ -32,6 +32,26 @@ icinga2_ido_options:
     contactnotifications_age: "0"
     eventhandlers_age: "0"
 
+# If you want to use a ssl secured mysql connection, activate it here:
+# If the mysql user has set "REQUIRE SSL", it's enough to enable_ssl
+# For a mysql user having "REQUIRE X509" you need a valid client certficate and a private key
+# To verify the mysql server's certificate you need to provide a valid CA certificate
+icinga2_mysql_ssl: no
+icinga2_mysql_ssl_X509: no
+icinga2_mysql_ssl_verify_server_cert: no
+icinga2_mysql_ssl_certs_common_name: "{{ansible_fqdn}}"
+icinga2_mysql_ssl_certs_path: "/etc/ssl"
+icinga2_mysql_ssl_ca_path: "/etc/ssl/ca"
+icinga2_mysql_ssl_certs_ca_path: "{{icinga2_mysql_ssl_ca_path}}/ca.crt"
+icinga2_mysql_ssl_certs_privkey_path: "{{icinga2_mysql_ssl_certs_path}}/server.key"
+icinga2_mysql_ssl_certs_cert_path: "{{icinga2_mysql_ssl_certs_path}}/server.crt"
+icinga2_ansible_user_dir: "{{ ('/' if ansible_user == 'root' else '/home/') + ansible_user | quote }}"
+
+# add icinga2 user to ssl group
+icinga2_mysql_ssl_cert_groupname: sslcert
+icinga2_add_user_to_ssl_group: no
+
+
 # Configure zones.conf
 icinga2_apiusers: {}
 icinga2_endpoints: {}
