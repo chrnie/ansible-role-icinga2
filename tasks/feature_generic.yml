@@ -20,8 +20,6 @@
   file:
     src: "../features-available/{{icinga2_feature_name}}.conf"
     dest: "/etc/icinga2/features-enabled/{{icinga2_feature_name}}.conf"
-    owner: "{{icinga2_user[ansible_os_family]}}"
-    group: "{{icinga2_user[ansible_os_family]}}"
     state: "{{'link' if ( icinga2_feature_name in icinga2_features ) else 'absent' }}"
   notify: Test config before restart icinga 2
   tags:
