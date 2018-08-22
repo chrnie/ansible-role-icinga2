@@ -13,7 +13,7 @@
     state: present
   when: ansible_os_family == 'RedHat'
 
-- name: Check IDO schema version in MySQL
+- name: Check IDO schema version in MySQL (no ssl)
   command:
     mysql
     -h {{ icinga2_ido_host|quote }}
@@ -23,14 +23,32 @@
     -Ns -e "SHOW TABLES LIKE 'icinga_dbversion'"
   changed_when: False
   register: table_exists
+  when: icinga2_ido_options.ssl_key is not defined
 
-- name: Import icinga2 schema
+- name: Check IDO schema version in MySQL (ssl)
+  command:
+    mysql
+    -h {{ icinga2_ido_host|quote }}
+    -u {{ icinga2_ido_user|quote }}
+    -p{{ icinga2_ido_password|quote }}
+    {{ icinga2_ido_dbname|quote }}
+    --ssl=TRUE
+    --ssl-cert={{ icinga2_ido_options.ssl_cert }}
+    --ssl-key={{ icinga2_ido_options.ssl_key }}
+    -Ns -e "SHOW TABLES LIKE 'icinga_dbversion'"
+  changed_when: False
+  register: table_exists
+  when: icinga2_ido_options.ssl_key is defined
+
+- name: Import icinga2 schema (no ssl)
   mysql_db:
     state: import
     name: "{{ icinga2_ido_dbname }}"
     login_host: "{{ icinga2_ido_host }}"
     login_user: "{{ icinga2_ido_user }}"
-    login_password: "{{ icinga2_ido_password }}"
+    login_password: "{{ icinga2_ido_password|default(omit) }}"
+    ssl_cert: "{{ icinga2_ido_options.ssl_key|default(omit) }}"
+    ssl_key: "{{ icinga2_ido_options.ssl_cert|default(omit) }}"
     target: /usr/share/icinga2-ido-mysql/schema/mysql.sql
   ignore_errors: yes
   when: table_exists.stdout == ""
