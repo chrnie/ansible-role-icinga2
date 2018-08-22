@@ -29,4 +29,16 @@ object {{ ic2_f_object_name[icinga2_feature_name] }} "{{ icinga2_feature_name }}
 {% endif %}
 {% endfor %}
 {% endif %}
+
+{% if icinga2_mysql_ssl %}
+enable_ssl = true
+{% if icinga2_mysql_ssl_verify_server_cert or icinga2_mysql_ssl_X509 %}
+ssl-ca={{icinga2_mysql_ssl_certs_ca_path}}
+{% endif %}
+{% if icinga2_mysql_ssl_X509 %}
+ssl-cert={{icinga2_mysql_ssl_certs_cert_path}}
+ssl-key={{icinga2_mysql_ssl_certs_privkey_path}}
+{% endif %}
+{% endif %}
+
 }

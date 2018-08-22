@@ -6,6 +6,7 @@
     state: present
   with_items:
     - icinga2-ido-mysql
+  notify: Test config before restart icinga 2
 
 - name: Install MySQL-python on RedHat
   yum:
@@ -40,22 +41,29 @@
   register: table_exists
   when: icinga2_ido_options.ssl_key is defined
 
-- name: Import icinga2 schema (no ssl)
+- name: Import icinga2 schema
   mysql_db:
     state: import
     name: "{{ icinga2_ido_dbname }}"
     login_host: "{{ icinga2_ido_host }}"
+    login_port: "{{ icinga2_ido_port }}"
     login_user: "{{ icinga2_ido_user }}"
     login_password: "{{ icinga2_ido_password|default(omit) }}"
     ssl_cert: "{{ icinga2_ido_options.ssl_key|default(omit) }}"
     ssl_key: "{{ icinga2_ido_options.ssl_cert|default(omit) }}"
+    ssl_ca: "{{ icinga2_mysql_ssl_certs_ca_path|default(omit) }}"
     target: /usr/share/icinga2-ido-mysql/schema/mysql.sql
   ignore_errors: yes
+  run_once: true
   when: table_exists.stdout == ""
+  tags:
+    - mysqlConnect
+
 
 - name: configure feature ido-mysql
   template:
     dest: "/etc/icinga2/features-available/ido-mysql.conf"
     src: templates/ido-mysql.j2
     mode: 0640
+  notify: Test config before restart icinga 2
 
