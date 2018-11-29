@@ -5,7 +5,7 @@
   register: icinga2_schema_upgrade_icingaversions
   changed_when: False
   when: ("ido-mysql" in icinga2_features)
-  tags: 
+  tags:
     - update
 
 - name: fetch all ido dbversions in upgrade path
@@ -13,7 +13,7 @@
   register: icinga2_schema_upgrade_dbversions
   changed_when: False
   when: ("ido-mysql" in icinga2_features)
-  tags: 
+  tags:
     - update
 
 - name: Check Icinga 2 schema version
@@ -22,7 +22,7 @@
     -h {{ icinga2_ido_host|quote }}
     -u {{ icinga2_ido_user|quote }}
     -p{{ icinga2_ido_password|quote }}
-    {{ "--ssl" if icinga2_mysql_ssl }}
+    {{ "--ssl" if icinga2_mysql_ssl else '' }}
     {{ "--ssl-verify-server-cert" if ( icinga2_mysql_ssl_verify_server_cert ) else '' }}
     {{ ( '--ssl-ca' + ' ' + icinga2_mysql_ssl_certs_ca_path ) | quote if ( icinga2_mysql_ssl_verify_server_cert or icinga2_mysql_ssl_X509 ) else '' }}
     {{ ( '--ssl-cert' + ' ' + icinga2_mysql_ssl_certs_cert_path ) | quote if icinga2_mysql_ssl_X509 else '' }}
@@ -33,7 +33,7 @@
   register: schema_result
   changed_when: schema_result.rc == 0
                 and schema_result.stdout | version_compare((icinga2_schema_upgrade_dbversions.stdout_lines|last), operator='lt', strict=True)
-  tags: 
+  tags:
     - update
 
 # I must run this task twice as I really don't know how to pass None, Null, empty or something to ssl_key. It must be undefined, NOT '' string.
@@ -55,7 +55,7 @@
   when: schema_result.changed
         and item.0 | version_compare(schema_result.stdout, operator='gt', strict=True)
         and not icinga2_mysql_ssl_X509
-  tags: 
+  tags:
     - update
 
 - name: Do the upgrade with REQUIRE X509
@@ -78,5 +78,5 @@
   when: schema_result.changed
         and item.0 | version_compare(schema_result.stdout, operator='gt', strict=True)
         and icinga2_mysql_ssl_X509
-  tags: 
+  tags:
     - update
