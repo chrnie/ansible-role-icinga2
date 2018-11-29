@@ -26,6 +26,15 @@ All features in this array will be enabled
 
 Update or not? `icinga2_state` can be installed,latest,removed,absent,present,build-dep
 
+### icinga2 constants
+
+    icinga2_PluginDir: /usr/lib64/nagios/plugins
+    icinga2_ManubulonPluginDir: {{icinga2_PluginDir}}
+    icinga2_PluginContribDir: {{icinga2_PluginDir}}
+    icinga2_nodename: {{hostvars[inventory_hostname]['ansible_fqdn'}}
+    icinga2_ZoneName: master
+    icinga2_ticketsalt: ...
+
 ### Manage package repos
 
     icinga2_manage_repo_icinga: true
