@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chrnie/ansible-role-icinga2.svg?branch=master)](https://travis-ci.org/chrnie/ansible-role-icinga2)
 
-Install icinga2 on rhel or debian. Configure agent or master mode and control icinga2 features. 
+Install icinga2 on rhel or debian. Configure agent or master mode and control icinga2 features.
 
 ## Role Variables
 

@@ -26,7 +26,7 @@ icinga2_ido_password: icinga
 icinga2_ido_dbname: icinga
 icinga2_ido_host: "127.0.0.1"
 icinga2_ido_port: 3306
-icinga2_ido_options: 
+icinga2_ido_options:
   cleanup:
     downtimehistory_age: "0"
     contactnotifications_age: "0"
