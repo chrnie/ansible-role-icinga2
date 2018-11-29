@@ -7,7 +7,7 @@
 {% if i2o_kind is not defined %}{% set i2o_kind = "object" %}{% endif %}
 {{ i2o_kind }} {{ i2o_type }} "{{ i2o_name1 }}" {
 {% if icinga2_endpoints[i2o_name1] %}
-{% for key, value in icinga2_endpoints[i2o_name1].iteritems() %}
+{% for key, value in icinga2_endpoints[i2o_name1].items() %}
 {% if value is string %}
   {{ key }} = "{{ value }}"
 {% elif value is mapping %}
