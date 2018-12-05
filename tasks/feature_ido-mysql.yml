@@ -32,6 +32,11 @@
     -h {{ icinga2_ido_host|quote }}
     -u {{ icinga2_ido_user|quote }}
     -p{{ icinga2_ido_password|quote }}
+    {{ "--ssl" if icinga2_mysql_ssl else '' }}
+    {{ "--ssl-verify-server-cert" if ( icinga2_mysql_ssl_verify_server_cert ) else '' }}
+    {{ ( '--ssl-ca' + ' ' + icinga2_mysql_ssl_certs_ca_path ) | quote if ( icinga2_mysql_ssl_verify_server_cert or icinga2_mysql_ssl_X509 ) else '' }}
+    {{ ( '--ssl-cert' + ' ' + icinga2_mysql_ssl_certs_cert_path ) | quote if icinga2_mysql_ssl_X509 else '' }}
+    {{ ( '--ssl-key' + ' ' + icinga2_mysql_ssl_certs_privkey_path ) | quote if icinga2_mysql_ssl_X509 else '' }}
     {{ icinga2_ido_dbname|quote }}
     --ssl=TRUE
     --ssl-cert={{ icinga2_ido_options.ssl_cert }}
@@ -43,6 +48,13 @@
 
 - name: Import icinga2 schema
   mysql_db:
+    login_host: "{{ icinga2_ido_host }}"
+    login_port: "{{ icinga2_ido_port }}"
+    login_user: "{{ icinga2_ido_user }}"
+    login_password: "{{ icinga2_ido_password }}"
+    config_file: "{{ icinga2_ansible_user_dir }}/.my.cnf"
+    name: "{{ icinga2_ido_dbname }}"
+    target: /usr/share/icinga2-ido-mysql/schema/mysql.sql
     state: import
     name: "{{ icinga2_ido_dbname }}"
     login_host: "{{ icinga2_ido_host }}"
