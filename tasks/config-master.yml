@@ -26,6 +26,8 @@
     group: "{{ icinga2_group[ansible_os_family] }}"
     mode: 0640
   notify: Test config before restart icinga 2
+  tags:
+    - zones
 
 - name: restart icinga after change
   meta: flush_handlers

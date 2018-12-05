@@ -14,6 +14,15 @@
     owner: "{{icinga2_user[ansible_os_family]}}"
     group: "{{icinga2_group[ansible_os_family]}}"
 
+- name: create directory /etc/icinga2/zones.d/global-templates
+  file:
+    dest: "{{ icinga2_global_templates_dir }}"
+    state: directory
+    mode: 0700
+    owner: "{{icinga2_user[ansible_os_family]}}"
+    group: "{{icinga2_group[ansible_os_family]}}"
+
+
 - name: exclude conf.d, include custom_conf.d
   lineinfile:
     path: /etc/icinga2/icinga2.conf
@@ -27,6 +36,8 @@
 
 - name: "Config Role"
   include_tasks: "config-{{icinga2_role}}.yml"
+  tags:
+    - zones
 
 - name: Include special feature tasks for {{ icinga2_feature_name }}
   include_tasks: "feature_{{ icinga2_feature_name }}.yml"

@@ -57,6 +57,22 @@ icinga2_apiusers: {}
 icinga2_endpoints: {}
 icinga2_zones: {}
 
+packages_redhat:
+  - icinga2
+  - bash-completion
+  - vim-icinga2
+  - nagios-plugins-all
+  - vim
+  - mysql
+
+packages_debian:
+  - icinga2
+  - bash-completion
+  - vim-icinga2
+  - monitoring-plugins
+  - vim
+  - mysql-client
+
 # Feature Options
 # leave empty to keep icinga2 shipped defaults
 # if you take controll about a config file you have to care about ALL options.

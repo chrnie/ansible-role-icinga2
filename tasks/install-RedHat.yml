@@ -18,10 +18,4 @@
     name: "{{ item }}"
     state: "{{ icinga2_state }}"
   register: track_icinga2_install
-  with_items:
-    - icinga2
-    - bash-completion
-    - vim-icinga2
-    - nagios-plugins-all
-    - vim
-    - mysql
+  with_items: "{{ packages_redhat }}" 

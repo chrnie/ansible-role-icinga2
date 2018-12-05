@@ -16,6 +16,7 @@
   tags:
     - install
     - config
+    - zones
 
 - name: Manage icinga2 constants.conf
   template:
