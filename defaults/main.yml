@@ -5,6 +5,9 @@
 icinga2_role: agent
 icinga2_ca_host: false
 icinga2_cert_request_host: "{{icinga2_ca_host}}"
+icinga2_PluginDir: /usr/lib64/nagios/plugins
+icinga2_ManubulonPluginDir: "{{icinga2_PluginDir}}"
+icinga2_PluginContribDir: "{{icinga2_PluginDir}}"
 icinga2_nodename: "{{ hostvars[inventory_hostname]['ansible_fqdn'] }}"
 icinga2_ZoneName: master
 icinga2_features: [ "checker", "api", "mainlog" ]
@@ -26,7 +29,7 @@ icinga2_ido_password: icinga
 icinga2_ido_dbname: icinga
 icinga2_ido_host: "127.0.0.1"
 icinga2_ido_port: 3306
-icinga2_ido_options: 
+icinga2_ido_options:
   cleanup:
     downtimehistory_age: "0"
     contactnotifications_age: "0"

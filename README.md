@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chrnie/ansible-role-icinga2.svg?branch=master)](https://travis-ci.org/chrnie/ansible-role-icinga2)
 
-Install icinga2 on rhel or debian. Configure agent or master mode and control icinga2 features. 
+Install icinga2 on rhel or debian. Configure agent or master mode and control icinga2 features.
 
 ## Role Variables
 
@@ -25,6 +25,15 @@ All features in this array will be enabled
     icinga2_state: present
 
 Update or not? `icinga2_state` can be installed,latest,removed,absent,present,build-dep
+
+### icinga2 constants
+
+    icinga2_PluginDir: /usr/lib64/nagios/plugins
+    icinga2_ManubulonPluginDir: {{icinga2_PluginDir}}
+    icinga2_PluginContribDir: {{icinga2_PluginDir}}
+    icinga2_nodename: {{hostvars[inventory_hostname]['ansible_fqdn'}}
+    icinga2_ZoneName: master
+    icinga2_ticketsalt: ...
 
 ### Manage package repos
 
