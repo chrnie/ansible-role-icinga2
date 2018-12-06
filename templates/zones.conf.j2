@@ -1,7 +1,3 @@
-{% if icinga2_nodename %}
-const NodeName = "{{ icinga2_nodename }}"
-{% endif %}
-
 {% set i2o_type = "Endpoint" %}
 {% for i2o_name1 in icinga2_endpoints %}
 {% include './templates/_object_endpoints.conf.j2' %}
