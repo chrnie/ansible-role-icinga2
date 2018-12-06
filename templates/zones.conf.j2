@@ -8,6 +8,6 @@ const NodeName = "{{ icinga2_nodename }}"
 {% endfor %}
 
 {% set i2o_type = "Zone" %}
-{% for i2o_name, i2o_attr in icinga2_zones.iteritems() %}
+{% for i2o_name, i2o_attr in icinga2_zones.items() %}
 {% include './templates/_object.conf.j2' %}
 {% endfor %}

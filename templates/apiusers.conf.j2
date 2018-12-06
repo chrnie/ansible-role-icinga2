@@ -1,6 +1,6 @@
 // {{ ansible_managed }}
 
 {% set i2o_type = "ApiUser" %}
-{% for i2o_name, i2o_attr in icinga2_apiusers.iteritems() %}
+{% for i2o_name, i2o_attr in icinga2_apiusers.items() %}
 {% include './templates/_object.conf.j2' %}
 {% endfor %}

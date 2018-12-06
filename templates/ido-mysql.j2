@@ -4,21 +4,21 @@
 library "db_ido_mysql"
 
 object {{ ic2_f_object_name[icinga2_feature_name] }} "{{ icinga2_feature_name }}" {
-{% for k, v in ic2_f_ido_connection.iteritems() %}
+{% for k, v in ic2_f_ido_connection.items() %}
   {{ k }} = "{{ v }}"
 {% endfor %}
 
 {% if icinga2_ido_options is mapping %}
-{% for k, v in icinga2_ido_options.iteritems() %}
+{% for k, v in icinga2_ido_options.items() %}
 {% if v is string %}  {{ k }} = {{ v }}
 {# ITERATE OVER SECOND LEVEL DICT #}
 {% elif v is mapping %}
   {{ k }} = {{ '{' }}
-{% for j,l in v.iteritems() %}
+{% for j,l in v.items() %}
 {% if l is string %}    {{ j }} = {{ l }}
 {% elif l is mapping %}
     {{ j }} = {{ '{' }}
-{% for o,p in l.iteritems() %}
+{% for o,p in l.items() %}
       {{ o }} = {{ p }}
 {% endfor %}{{ '    }' }}
 {% elif l is sequence %}    {{ j }} = {{ '[ ' }}{% for n in l %}{{ n }}{{ ',' if not loop.last else '' }} {% endfor %} {{ '] ' }}
