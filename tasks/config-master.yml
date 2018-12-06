@@ -37,7 +37,6 @@
 
 - name: Manage Certificates
   include_tasks: "pki.yml"
-  creates: "/var/lib/icinga2/certs/{{ icinga2_nodename }}.crt"
   when: inventory_hostname != icinga2_ca_host
   tags:
     - install

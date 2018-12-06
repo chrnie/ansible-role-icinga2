@@ -35,7 +35,6 @@
 
 - name: Manage Certificates
   include_tasks: "pki.yml"
-  creates: "/var/lib/icinga2/certs/{{ icinga2_nodename }}.crt"
   tags:
     - install
     - update
