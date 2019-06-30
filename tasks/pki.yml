@@ -76,6 +76,7 @@
     --parent_zone {{ icinga2_ZoneName }} \
     --trustedcert /var/lib/icinga2/certs/trustedcert.crt \
     --cn {{ icinga2_nodename }} \
+    --endpoint {{ icinga2_nodename }} \
     --accept-commands \
     --accept-config
   args:
